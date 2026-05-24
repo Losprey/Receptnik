@@ -66,4 +66,3 @@ while True:
     elif volba == "3": hladaj()
     elif volba == "4": ai_navrh()
     elif volba == "5": break
-

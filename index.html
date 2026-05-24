@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptník</title>
+    <style>
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3436;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* === FORMULÁR === */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .card h2 {
+            color: #2d3436;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #2d3436;
+            font-size: 0.9rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button, .btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.8rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover, .btn:hover {
+            background: #5a4bd1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        button:active, .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #dfe6e9;
+            color: #2d3436;
+        }
+
+        .btn-secondary:hover {
+            background: #b2bec3;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-danger {
+            background: #ff7675;
+        }
+
+        .btn-danger:hover {
+            background: #d63031;
+        }
+
+        .btn-success {
+            background: #00b894;
+        }
+
+        .btn-success:hover {
+            background: #00a381;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        /* === VYHĽADÁVANIE === */
+        .search-box {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* === ZOZNAM RECEPTOV === */
+        .recept-list {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .recept-item {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #6c5ce7;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recept-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .recept-item h3 {
+            color: #2d3436;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .recept-item .meta {
+            color: #636e72;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .recept-item .ingrediencie {
+            background: #f8f9fa;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .recept-item .postup {
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        .recept-item .actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .recept-item .actions button {
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #636e72;
+        }
+
+        .empty-state .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* === AI SEKCIJA === */
+        #ai-vysledok {
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: #f0f0ff;
+            border-radius: 12px;
+            border-left: 4px solid #6c5ce7;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            display: none;
+        }
+
+        #ai-vysledok.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === RESPONZIVITA === */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            button, .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* === NOTIFIKÁCIA === */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #2d3436;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #00b894;
+        }
+
+        .toast.error {
+            background: #d63031;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🍳 Receptník</h1>
+    <p class="subtitle">Tvoja osobná kuchárska kniha v prehliadači</p>
+
+    <!-- === PRIDANIE RECEPTU === -->
+    <div class="card">
+        <h2>➕ Pridať nový recept</h2>
+        <form id="form-pridaj">
+            <div class="form-grid">
+                <div class="full-width">
+                    <label for="nazov">Názov receptu</label>
+                    <input type="text" id="nazov" placeholder="napr. Špagety Carbonara" required>
+                </div>
+                <div class="full-width">
+                    <label for="ingrediencie">Ingrediencie (oddeľ čiarkou)</label>
+                    <input type="text" id="ingrediencie" placeholder="cestoviny, smotana, slanina, vajce" required>
+                </div>
+                <div class="full-width">
+                    <label for="postup">Postup</label>
+                    <textarea id="postup" placeholder="Popis prípravy krok za krokom..." required></textarea>
+                </div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn-success">💾 Uložiť recept</button>
+                <button type="reset" class="btn-secondary">🗑️ Vyčistiť</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- === VYHĽADÁVANIE A AI === -->
+    <div class="card">
+        <h2>🔍 Vyhľadávanie a AI pomocník</h2>
+        
+        <div class="search-box">
+            <input type="text" id="hladaj-input" placeholder="Hľadať podľa ingrediencie (napr. kuracie)">
+            <button id="hladaj-btn" class="btn-secondary">🔎 Hľadať</button>
+            <button id="zobraz-vsetky-btn" class="btn-secondary">📋 Všetky recepty</button>
+        </div>
+
+        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e0e0e0;">
+
+        <div class="search-box">
+            <input type="text" id="ai-input" placeholder="Čo máš doma? (oddeľ čiarkou)">
+            <button id="ai-btn" class="btn">🤖 AI návrh</button>
+        </div>
+        <div id="ai-vysledok"></div>
+    </div>
+
+    <!-- === ZOZNAM RECEPTOV === -->
+    <div class="card">
+        <h2>📖 Moje recepty (<span id="pocet-receptov">0</span>)</h2>
+        <div id="recept-list" class="recept-list">
+            <div class="empty-state" id="empty-state">
+                <div class="emoji">📭</div>
+                <p>Zatiaľ nemáš žiadne recepty.</p>
+                <p>Pridaj svoj prvý recept!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- === TOAST NOTIFIKÁCIA === -->
+<div id="toast" class="toast"></div>
+
+<script>
+    // === LOCALSTORAGE ===
+    const STORAGE_KEY = 'receptnik_recepty';
+
+    function nacitajRecepty() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function ulozRecepty(recepty) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(recepty));
+        aktualizujPocet();
+    }
+
+    function aktualizujPocet() {
+        const recepty = nacitajRecepty();
+        document.getElementById('pocet-receptov').textContent = recepty.length;
+    }
+
+    // === ZOBRAZENIE RECEPTOV ===
+    function zobrazRecepty(recepty) {
+        const container = document.getElementById('recept-list');
+        const emptyState = document.getElementById('empty-state');
+        
+        // Odstrániť starý obsah (okrem empty-state)
+        const items = container.querySelectorAll('.recept-item');
+        items.forEach(item => item.remove());
+
+        if (!recepty || recepty.length === 0) {
+            emptyState.style.display = 'block';
+            return;
+        }
+
+        emptyState.style.display = 'none';
+
+        recepty.forEach((recept, index) => {
+            const div = document.createElement('div');
+            div.className = 'recept-item';
+            div.dataset.index = index;
+            
+            // Nájsť globálny index (pre mazanie)
+            const vsetky = nacitajRecepty();
+            const globalIndex = vsetky.findIndex(r => r.nazov === recept.nazov && r.ingrediencie === recept.ingrediencie && r.postup === recept.postup);
+
+            div.innerHTML = `
+                <h3>🍽️ ${recept.nazov}</h3>
+                <div class="meta">📝 Pridané: ${new Date().toLocaleDateString('sk-SK')}</div>
+                <div class="ingrediencie"><strong>🛒 Ingrediencie:</strong> ${recept.ingrediencie}</div>
+                <div class="postup"><strong>👨‍🍳 Postup:</strong> ${recept.postup}</div>
+                <div class="actions">
+                    <button class="btn-danger zmaz-btn" data-index="${globalIndex}">🗑️ Zmazať</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        // Pridať eventy na tlačidlá Zmazať
+        document.querySelectorAll('.zmaz-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                zmazRecept(index);
+            });
+        });
+    }
+
+    function zmazRecept(index) {
+        let recepty = nacitajRecepty();
+        if (index >= 0 && index < recepty.length) {
+            const nazov = recepty[index].nazov;
+            recepty.splice(index, 1);
+            ulozRecepty(recepty);
+            zobrazRecepty(recepty);
+            showToast(`🗑️ Recept "${nazov}" bol zmazaný`, 'success');
+        }
+    }
+
+    function zobrazVsetky() {
+        const recepty = nacitajRecepty();
+        zobrazRecepty(recepty);
+        document.getElementById('hladaj-input').value = '';
+    }
+
+    // === PRIDANIE RECEPTU ===
+    document.getElementById('form-pridaj').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nazov = document.getElementById('nazov').value.trim();
+        const ingrediencie = document.getElementById('ingrediencie').value.trim();
+        const postup = document.getElementById('postup').value.trim();
+
+        if (!nazov || !ingrediencie || !postup) {
+            showToast('❌ Vyplň všetky polia!', 'error');
+            return;
+        }
+
+        const recepty = nacitajRecepty();
+        
+        // Kontrola duplicity
+        const existuje = recepty.some(r => r.nazov.toLowerCase() === nazov.toLowerCase());
+        if (existuje) {
+            showToast(`⚠️ Recept "${nazov}" už existuje!`, 'error');
+            return;
+        }
+
+        recepty.push({ nazov, ingrediencie, postup });
+        ulozRecepty(recepty);
+        zobrazRecepty(nacitajRecepty());
+        
+        // Reset formulu
+        document.getElementById('form-pridaj').reset();
+        showToast(`✅ Recept "${nazov}" bol pridaný!`, 'success');
+    });
+
+    // === VYHĽADÁVANIE ===
+    document.getElementById('hladaj-btn').addEventListener('click', function() {
+        const query = document.getElementById('hladaj-input').value.trim().toLowerCase();
+        if (!query) {
+            showToast('🔎 Zadaj ingredienciu na vyhľadanie', 'error');
+            return;
+        }
+
+        const recepty = nacitajRecepty();
+        const najdene = recepty.filter(r => 
+            r.ingrediencie.toLowerCase().includes(query)
+        );
+
+        if (najdene.length === 0) {
+            showToast(`🔎 Nenašiel sa žiadny recept s ingredienciou "${query}"`, 'error');
+        } else {
+            showToast(`🔎 Nájdených ${najdene.length} receptov`, 'success');
+        }
+
+        zobrazRecepty(najdene);
+    });
+
+    // Enter vo vyhľadávaní
+    document.getElementById('hladaj-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('hladaj-btn').click();
+        }
+    });
+
+    document.getElementById('zobraz-vsetky-btn').addEventListener('click', zobrazVsetky);
+
+    // === AI NÁVRH ===
+    document.getElementById('ai-btn').addEventListener('click', async function() {
+        const ingrediencie = document.getElementById('ai-input').value.trim();
+        if (!ingrediencie) {
+            showToast('🤖 Zadaj ingrediencie pre AI návrh', 'error');
+            return;
+        }
+
+        const aiVysledok = document.getElementById('ai-vysledok');
+        aiVysledok.textContent = '🤔 Premýšľam...';
+        aiVysledok.classList.add('show');
+
+        try {
+            // Volanie backend API (ak používaš Flask, inak simulujeme)
+            // V reálnom projekte by si volal svoj backend
+            const response = await fetch('/ai_navrh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ingrediencie: ingrediencie })
+            });
+
+            if (!response.ok) {
+                throw new Error('API odpovedalo s chybou');
+            }
+
+            const data = await response.json();
+            aiVysledok.textContent = data.navrh || 'Nepodarilo sa získať návrh.';
+            showToast('🤖 AI návrh je pripravený!', 'success');
+
+        } catch (error) {
+            console.error('AI chyba:', error);
+            // Fallback ak backend nie je k dispozícii
+            aiVysledok.textContent = `🥘 Skús pripraviť niečo z: ${ingrediencie}\n\n💡 Tip: Môžeš skúsiť restovať ingrediencie na panvici, pridať soľ, korenie a podávať s ryžou alebo pečivom.`;
+            showToast('🤖 AI návrh (offline mód)', 'success');
+        }
+    });
+
+    // === TOAST ===
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show ' + type;
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    // === INICIALIZÁCIA ===
+    document.addEventListener('DOMContentLoaded', function() {
+        const recepty = nacitajRecepty();
+        zobrazRecepty(recepty);
+        aktualizujPocet();
+    });
+</script>
+
+</body>
+</html>
