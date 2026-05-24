@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receptník</title>
+    <title>Receptník • Moderná kuchárska kniha</title>
     <style>
-        /* === RESET === */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #6C5CE7;
+            --primary-dark: #5A4BD1;
+            --primary-light: #A29BFE;
+            --secondary: #00B894;
+            --secondary-dark: #00A381;
+            --danger: #FF7675;
+            --danger-dark: #D63031;
+            --gray-50: #F8F9FA;
+            --gray-100: #F1F3F5;
+            --gray-200: #E9ECEF;
+            --gray-300: #DEE2E6;
+            --gray-400: #CED4DA;
+            --gray-500: #ADB5BD;
+            --gray-600: #6C757D;
+            --gray-700: #495057;
+            --gray-800: #343A40;
+            --gray-900: #212529;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,63 +42,100 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E8ECF1 50%, #DCE1E8 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 2rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            line-height: 1.6;
+            color: var(--gray-800);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 960px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.6s ease-out;
         }
 
-        h1 {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
             text-align: center;
-            color: #2d3436;
-            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            padding: 2.5rem 2rem;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .header .emoji-big {
+            font-size: 3rem;
+            display: block;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #636e72;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        /* === FORMULÁR === */
+        /* Cards */
         .card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(15px);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.8rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .card h2 {
-            color: #2d3436;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--gray-800);
             margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
+        .card h2 .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Form */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .form-grid .full-width {
@@ -78,84 +144,36 @@
 
         label {
             display: block;
-            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: #2d3436;
-            font-size: 0.9rem;
+            color: var(--gray-700);
+            margin-bottom: 0.35rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
         }
 
         input, textarea {
             width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: #fafafa;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
             font-family: inherit;
+            background: var(--gray-50);
+            transition: all 0.25s ease;
+            color: var(--gray-800);
         }
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #6c5ce7;
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108,92,231,0.12);
             background: white;
         }
 
         textarea {
             resize: vertical;
-            min-height: 80px;
-        }
-
-        button, .btn {
-            background: #6c5ce7;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.8rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        button:hover, .btn:hover {
-            background: #5a4bd1;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
-        }
-
-        button:active, .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: #dfe6e9;
-            color: #2d3436;
-        }
-
-        .btn-secondary:hover {
-            background: #b2bec3;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-danger {
-            background: #ff7675;
-        }
-
-        .btn-danger:hover {
-            background: #d63031;
-        }
-
-        .btn-success {
-            background: #00b894;
-        }
-
-        .btn-success:hover {
-            background: #00a381;
+            min-height: 90px;
         }
 
         .button-group {
@@ -165,151 +183,262 @@
             margin-top: 1rem;
         }
 
-        /* === VYHĽADÁVANIE === */
-        .search-box {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.8rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            font-family: inherit;
+            letter-spacing: 0.2px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 15px rgba(108,92,231,0.35);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: var(--secondary-dark);
+            box-shadow: 0 4px 15px rgba(0,184,148,0.35);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-dark);
+            box-shadow: 0 4px 15px rgba(255,118,117,0.35);
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-ai:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            box-shadow: 0 4px 20px rgba(108,92,231,0.3);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-icon {
+            padding: 0.75rem;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Search */
+        .search-row {
             display: flex;
             gap: 0.8rem;
             align-items: center;
             flex-wrap: wrap;
         }
 
-        .search-box input {
+        .search-row input {
             flex: 1;
-            min-width: 200px;
+            min-width: 180px;
         }
 
-        /* === ZOZNAM RECEPTOV === */
-        .recept-list {
-            display: grid;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+        .divider {
+            margin: 1.5rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gray-300), transparent);
         }
 
-        .recept-item {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid #6c5ce7;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .recept-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .recept-item h3 {
-            color: #2d3436;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .recept-item .meta {
-            color: #636e72;
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .recept-item .ingrediencie {
-            background: #f8f9fa;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.8rem;
+        /* AI Result */
+        #ai-vysledok {
+            margin-top: 1.2rem;
+            padding: 1.4rem 1.6rem;
+            background: linear-gradient(135deg, #F0F0FF 0%, #E8F8F5 100%);
+            border-radius: var(--radius-md);
+            border-left: 5px solid var(--primary);
+            white-space: pre-wrap;
+            line-height: 1.7;
+            display: none;
             font-size: 0.95rem;
+            box-shadow: inset 0 2px 10px rgba(108,92,231,0.05);
         }
 
-        .recept-item .postup {
-            color: #2d3436;
-            line-height: 1.6;
+        #ai-vysledok.show {
+            display: block;
+            animation: slideUp 0.4s ease;
         }
 
-        .recept-item .actions {
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Recipe List */
+        .recipe-grid {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .recipe-item {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108,92,231,0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .recipe-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-left-color: var(--secondary);
+        }
+
+        .recipe-item h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.4rem;
+        }
+
+        .recipe-item .meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-bottom: 0.8rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .recipe-item .ingredients {
+            background: var(--gray-50);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .recipe-item .instructions {
+            color: var(--gray-600);
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        .recipe-item .actions {
             margin-top: 1rem;
             display: flex;
             gap: 0.5rem;
         }
 
-        .recept-item .actions button {
-            padding: 0.4rem 1rem;
-            font-size: 0.85rem;
+        .recipe-item .tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .empty-state {
             text-align: center;
             padding: 3rem 1rem;
-            color: #636e72;
+            color: var(--gray-600);
         }
 
         .empty-state .emoji {
             font-size: 4rem;
             margin-bottom: 1rem;
-        }
-
-        /* === AI SEKCIJA === */
-        #ai-vysledok {
-            margin-top: 1rem;
-            padding: 1.2rem;
-            background: #f0f0ff;
-            border-radius: 12px;
-            border-left: 4px solid #6c5ce7;
-            white-space: pre-wrap;
-            line-height: 1.6;
-            display: none;
-        }
-
-        #ai-vysledok.show {
             display: block;
-            animation: fadeIn 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .empty-state h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
         }
 
-        /* === RESPONZIVITA === */
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .search-box {
-                flex-direction: column;
-            }
-
-            .search-box input {
-                width: 100%;
-            }
-
-            button, .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* === NOTIFIKÁCIA === */
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: #2d3436;
+            background: var(--gray-800);
             color: white;
             padding: 1rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(80px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-xl);
+            transform: translateY(100px);
             opacity: 0;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 1000;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
         }
 
         .toast.show {
@@ -318,23 +447,140 @@
         }
 
         .toast.success {
-            background: #00b894;
+            background: linear-gradient(135deg, var(--secondary), #00B894);
         }
 
         .toast.error {
-            background: #d63031;
+            background: linear-gradient(135deg, var(--danger), #D63031);
+        }
+
+        .toast.info {
+            background: linear-gradient(135deg, var(--primary), #5A4BD1);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .stat {
+            background: var(--gray-50);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .header {
+                padding: 1.8rem 1.2rem;
+            }
+
+            .card {
+                padding: 1.2rem 1.2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .search-row {
+                flex-direction: column;
+            }
+
+            .search-row input {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .recipe-item {
+                padding: 1.2rem;
+            }
+
+            .toast {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header .subtitle {
+                font-size: 1rem;
+            }
+
+            .card h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🍳 Receptník</h1>
-    <p class="subtitle">Tvoja osobná kuchárska kniha v prehliadači</p>
+    <!-- Header -->
+    <header class="header">
+        <span class="emoji-big">🍳</span>
+        <h1>Receptník</h1>
+        <p class="subtitle">Tvoja moderná kuchárska kniha v cloude</p>
+        <div class="stats" style="margin-top: 1rem; justify-content: center;">
+            <div class="stat">📖 Počet receptov: <span id="pocet-receptov">0</span></div>
+        </div>
+    </header>
 
-    <!-- === PRIDANIE RECEPTU === -->
+    <!-- Add Recipe -->
     <div class="card">
-        <h2>➕ Pridať nový recept</h2>
+        <h2><span class="icon">➕</span> Pridať nový recept</h2>
         <form id="form-pridaj">
             <div class="form-grid">
                 <div class="full-width">
@@ -351,45 +597,45 @@
                 </div>
             </div>
             <div class="button-group">
-                <button type="submit" class="btn-success">💾 Uložiť recept</button>
-                <button type="reset" class="btn-secondary">🗑️ Vyčistiť</button>
+                <button type="submit" class="btn btn-success">💾 Uložiť recept</button>
+                <button type="reset" class="btn btn-secondary">🗑️ Vyčistiť</button>
             </div>
         </form>
     </div>
 
-    <!-- === VYHĽADÁVANIE A AI === -->
+    <!-- Search & AI -->
     <div class="card">
-        <h2>🔍 Vyhľadávanie a AI pomocník</h2>
+        <h2><span class="icon">🔍</span> Vyhľadávanie a AI pomocník</h2>
         
-        <div class="search-box">
+        <div class="search-row">
             <input type="text" id="hladaj-input" placeholder="Hľadať podľa ingrediencie (napr. kuracie)">
-            <button id="hladaj-btn" class="btn-secondary">🔎 Hľadať</button>
-            <button id="zobraz-vsetky-btn" class="btn-secondary">📋 Všetky recepty</button>
+            <button id="hladaj-btn" class="btn btn-secondary">🔎 Hľadať</button>
+            <button id="zobraz-vsetky-btn" class="btn btn-secondary">📋 Všetky</button>
         </div>
 
-        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #e0e0e0;">
+        <hr class="divider">
 
-        <div class="search-box">
+        <div class="search-row">
             <input type="text" id="ai-input" placeholder="Čo máš doma? (oddeľ čiarkou)">
-            <button id="ai-btn" class="btn">🤖 AI návrh</button>
+            <button id="ai-btn" class="btn btn-ai">🤖 AI návrh</button>
         </div>
         <div id="ai-vysledok"></div>
     </div>
 
-    <!-- === ZOZNAM RECEPTOV === -->
+    <!-- Recipe List -->
     <div class="card">
-        <h2>📖 Moje recepty (<span id="pocet-receptov">0</span>)</h2>
-        <div id="recept-list" class="recept-list">
+        <h2><span class="icon">📖</span> Moje recepty</h2>
+        <div id="recept-list" class="recipe-grid">
             <div class="empty-state" id="empty-state">
-                <div class="emoji">📭</div>
-                <p>Zatiaľ nemáš žiadne recepty.</p>
-                <p>Pridaj svoj prvý recept!</p>
+                <span class="emoji">📭</span>
+                <h3>Zatiaľ nemáš žiadne recepty</h3>
+                <p>Pridaj svoj prvý recept a začni variť!</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- === TOAST NOTIFIKÁCIA === -->
+<!-- Toast -->
 <div id="toast" class="toast"></div>
 
 <script>
@@ -420,8 +666,7 @@
         const container = document.getElementById('recept-list');
         const emptyState = document.getElementById('empty-state');
         
-        // Odstrániť starý obsah (okrem empty-state)
-        const items = container.querySelectorAll('.recept-item');
+        const items = container.querySelectorAll('.recipe-item');
         items.forEach(item => item.remove());
 
         if (!recepty || recepty.length === 0) {
@@ -433,26 +678,27 @@
 
         recepty.forEach((recept, index) => {
             const div = document.createElement('div');
-            div.className = 'recept-item';
+            div.className = 'recipe-item';
             div.dataset.index = index;
             
-            // Nájsť globálny index (pre mazanie)
             const vsetky = nacitajRecepty();
             const globalIndex = vsetky.findIndex(r => r.nazov === recept.nazov && r.ingrediencie === recept.ingrediencie && r.postup === recept.postup);
 
             div.innerHTML = `
                 <h3>🍽️ ${recept.nazov}</h3>
-                <div class="meta">📝 Pridané: ${new Date().toLocaleDateString('sk-SK')}</div>
-                <div class="ingrediencie"><strong>🛒 Ingrediencie:</strong> ${recept.ingrediencie}</div>
-                <div class="postup"><strong>👨‍🍳 Postup:</strong> ${recept.postup}</div>
+                <div class="meta">
+                    <span>📅 ${new Date().toLocaleDateString('sk-SK')}</span>
+                    <span class="tag">🍳 recept</span>
+                </div>
+                <div class="ingredients"><strong>🛒 Ingrediencie:</strong> ${recept.ingrediencie}</div>
+                <div class="instructions"><strong>👨‍🍳 Postup:</strong> ${recept.postup}</div>
                 <div class="actions">
-                    <button class="btn-danger zmaz-btn" data-index="${globalIndex}">🗑️ Zmazať</button>
+                    <button class="btn btn-danger btn-sm zmaz-btn" data-index="${globalIndex}">🗑️ Zmazať</button>
                 </div>
             `;
             container.appendChild(div);
         });
 
-        // Pridať eventy na tlačidlá Zmazať
         document.querySelectorAll('.zmaz-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const index = parseInt(this.dataset.index);
@@ -493,7 +739,6 @@
 
         const recepty = nacitajRecepty();
         
-        // Kontrola duplicity
         const existuje = recepty.some(r => r.nazov.toLowerCase() === nazov.toLowerCase());
         if (existuje) {
             showToast(`⚠️ Recept "${nazov}" už existuje!`, 'error');
@@ -504,7 +749,6 @@
         ulozRecepty(recepty);
         zobrazRecepty(nacitajRecepty());
         
-        // Reset formulu
         document.getElementById('form-pridaj').reset();
         showToast(`✅ Recept "${nazov}" bol pridaný!`, 'success');
     });
@@ -531,7 +775,6 @@
         zobrazRecepty(najdene);
     });
 
-    // Enter vo vyhľadávaní
     document.getElementById('hladaj-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             document.getElementById('hladaj-btn').click();
@@ -553,8 +796,6 @@
         aiVysledok.classList.add('show');
 
         try {
-            // Volanie backend API (ak používaš Flask, inak simulujeme)
-            // V reálnom projekte by si volal svoj backend
             const response = await fetch('/ai_navrh', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -571,9 +812,8 @@
 
         } catch (error) {
             console.error('AI chyba:', error);
-            // Fallback ak backend nie je k dispozícii
             aiVysledok.textContent = `🥘 Skús pripraviť niečo z: ${ingrediencie}\n\n💡 Tip: Môžeš skúsiť restovať ingrediencie na panvici, pridať soľ, korenie a podávať s ryžou alebo pečivom.`;
-            showToast('🤖 AI návrh (offline mód)', 'success');
+            showToast('🤖 AI návrh (offline mód)', 'info');
         }
     });
 
