@@ -18,18 +18,35 @@ def uloz(recepty):
 @app.route('/')
 def index():
     recepty = nacitaj()
-    return render_template('index.html', recepty=recepty)
+    kategoria = request.args.get('kategoria', 'vsetky')
+    if kategoria != 'vsetky':
+        recepty = [r for r in recepty if r.get('kategoria') == kategoria]
+    return render_template('index.html', recepty=recepty, aktivna_kategoria=kategoria)
+
+@app.route('/api/recepty')
+def api_recepty():
+    recepty = nacitaj()
+    return jsonify(recepty)
 
 @app.route('/pridat', methods=['POST'])
 def pridat():
     nazov = request.form['nazov']
     ingrediencie = request.form['ingrediencie']
     postup = request.form['postup']
+    kategoria = request.form.get('kategoria', '')
     
     recepty = nacitaj()
-    recepty.append({"nazov": nazov, "ingrediencie": ingrediencie, "postup": postup})
+    recepty.append({"nazov": nazov, "ingrediencie": ingrediencie, "postup": postup, "kategoria": kategoria})
     uloz(recepty)
     
+    return redirect(url_for('index'))
+
+@app.route('/zmazat/<int:index>', methods=['POST'])
+def zmazat(index):
+    recepty = nacitaj()
+    if 0 <= index < len(recepty):
+        del recepty[index]
+        uloz(recepty)
     return redirect(url_for('index'))
 
 @app.route('/hladat')
@@ -61,6 +78,23 @@ def ai_navrh():
     ai_text = odpoved["choices"][0]["message"]["content"]
     
     return jsonify({"navrh": ai_text})
+
+@app.route('/toggle_favorite/<int:index>', methods=['POST'])
+def toggle_favorite(index):
+    recepty = nacitaj()
+    if 0 <= index < len(recepty):
+        if 'favorite' not in recepty[index]:
+            recepty[index]['favorite'] = False
+        recepty[index]['favorite'] = not recepty[index]['favorite']
+        uloz(recepty)
+        return jsonify({"favorite": recepty[index]['favorite']})
+    return jsonify({"error": "Recept neexistuje"}), 404
+
+@app.route('/favorites')
+def favorites():
+    recepty = nacitaj()
+    oblubene = [r for r in recepty if r.get('favorite')]
+    return render_template('index.html', recepty=oblubene, aktivna_kategoria='oblubene')
 
 if __name__ == '__main__':
     app.run(debug=True)
