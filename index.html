@@ -28,6 +28,10 @@
             --header-height: 60px;
             --btn-min-height: 48px;
             --btn-min-width: 48px;
+            --gradient-1: linear-gradient(135deg, #6C5CE7 0%, #00B894 100%);
+            --gradient-2: linear-gradient(135deg, #FF7675 0%, #6C5CE7 100%);
+            --gradient-3: linear-gradient(135deg, #00B894 0%, #A29BFE 100%);
+            --gradient-4: linear-gradient(135deg, #FFD93D 0%, #FF6B6B 100%);
         }
 
         [data-theme="dark"] {
@@ -76,7 +80,7 @@
         .app-header h1 {
             font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -106,7 +110,7 @@
         .hero {
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: var(--gradient-1);
             color: white;
             padding: 4rem 1.5rem;
             text-align: center;
@@ -126,9 +130,10 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.05) 0%, transparent 40%);
+            background: 
+                radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(255,255,255,0.05) 0%, transparent 40%);
             animation: heroGlow 8s ease-in-out infinite alternate;
         }
 
@@ -297,6 +302,34 @@
             gap: 0.5rem;
         }
 
+        /* Gradient Cards */
+        .gradient-card {
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .gradient-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-1);
+            opacity: 0.05;
+            border-radius: var(--radius);
+            transition: opacity 0.3s;
+        }
+
+        .gradient-card:hover::before {
+            opacity: 0.08;
+        }
+
+        .gradient-card.gradient-2::before { background: var(--gradient-2); }
+        .gradient-card.gradient-3::before { background: var(--gradient-3); }
+        .gradient-card.gradient-4::before { background: var(--gradient-4); }
+
         /* Form */
         .form-group {
             margin-bottom: 1rem;
@@ -304,9 +337,9 @@
 
         label {
             display: block;
-            font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 0.4rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
@@ -357,208 +390,159 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: var(--gradient-1);
             color: white;
-            box-shadow: 0 4px 10px rgba(108,92,231,0.3);
+            box-shadow: 0 4px 15px rgba(108,92,231,0.3);
         }
 
         .btn-primary:hover {
-            box-shadow: 0 6px 15px rgba(108,92,231,0.4);
+            box-shadow: 0 6px 20px rgba(108,92,231,0.4);
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: var(--secondary);
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,184,148,0.3);
+            background: var(--bg-card);
+            color: var(--text);
+            border: 2px solid var(--border);
         }
 
         .btn-secondary:hover {
-            box-shadow: 0 6px 15px rgba(0,184,148,0.4);
-            transform: translateY(-2px);
+            border-color: var(--primary);
+            background: rgba(108,92,231,0.05);
         }
 
         .btn-danger {
             background: var(--danger);
             color: white;
-            box-shadow: 0 4px 10px rgba(255,118,117,0.3);
         }
 
         .btn-danger:hover {
             background: var(--danger-dark);
-            box-shadow: 0 6px 15px rgba(255,118,117,0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--border);
-            color: var(--text);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
         }
 
         .btn-sm {
             padding: 0.5rem 1rem;
             font-size: 0.85rem;
             min-height: 36px;
+            min-width: 36px;
         }
 
-        .btn-block {
+        .btn-full {
             width: 100%;
         }
 
-        /* Recipe List */
-        .recipe-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .recipe-item {
+        /* Recipe Cards */
+        .recipe-card {
             background: var(--bg-card);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: var(--radius);
-            padding: 1.2rem 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .recipe-item:hover {
-            transform: translateY(-2px);
+        .recipe-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            opacity: 0.8;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
 
-        .recipe-item-header {
+        .recipe-card .recipe-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 1rem;
+            margin-bottom: 0.8rem;
         }
 
-        .recipe-item-header h3 {
-            font-size: 1.1rem;
+        .recipe-card .recipe-title {
+            font-size: 1.2rem;
             font-weight: 700;
             flex: 1;
         }
 
-        .recipe-item .category-badge {
+        .recipe-card .recipe-category {
             display: inline-block;
-            background: var(--primary-light);
+            background: var(--gradient-1);
             color: white;
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .recipe-item .recipe-meta {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
+        .recipe-card .recipe-ingredients {
             color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
         }
 
-        .recipe-item .recipe-actions {
+        .recipe-card .recipe-ingredients .ingredient-tag {
+            background: var(--bg);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+        }
+
+        .recipe-card .recipe-steps {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .recipe-card .recipe-actions {
             display: flex;
             gap: 0.5rem;
-            margin-top: 0.8rem;
             flex-wrap: wrap;
         }
 
-        .recipe-detail {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            display: none;
-        }
-
-        .recipe-detail.open {
-            display: block;
-        }
-
-        .recipe-detail h4 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-            color: var(--text-secondary);
-        }
-
-        .recipe-detail p {
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-            white-space: pre-line;
-        }
-
-        /* Filter buttons */
-        .filter-bar {
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding: 0.5rem 0;
-            margin-bottom: 1rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .filter-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-btn {
-            flex-shrink: 0;
-            padding: 0.5rem 1.2rem;
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 600;
+        .recipe-card .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.2s;
-            min-height: 40px;
-        }
-
-        .filter-btn.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .filter-btn:hover:not(.active) {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Search */
-        .search-bar {
+            transition: transform 0.2s;
+            padding: 0.2rem;
+            min-width: var(--btn-min-width);
+            min-height: var(--btn-min-height);
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            align-items: center;
+            justify-content: center;
         }
 
-        .search-bar input {
-            flex: 1;
+        .recipe-card .favorite-btn:hover {
+            transform: scale(1.2);
         }
 
-        /* AI Section */
-        .ai-result {
-            background: linear-gradient(135deg, rgba(108,92,231,0.05) 0%, rgba(0,184,148,0.05) 100%);
-            border: 1px solid var(--primary-light);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            margin-top: 1rem;
-            white-space: pre-line;
-            font-size: 0.9rem;
+        .recipe-card .favorite-btn.active {
+            animation: heartBeat 0.3s ease;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
         }
 
         /* Bottom Navigation */
@@ -575,9 +559,9 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
             padding: 0 0.5rem;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
         }
 
         .nav-item {
@@ -591,27 +575,71 @@
             font-size: 0.65rem;
             font-weight: 500;
             cursor: pointer;
-            transition: color 0.2s;
             padding: 0.4rem 0.8rem;
-            border-radius: var(--radius-sm);
-            min-height: var(--btn-min-height);
-            min-width: var(--btn-min-width);
+            border-radius: 12px;
+            transition: all 0.2s;
+            min-width: 60px;
+            min-height: 50px;
+            justify-content: center;
         }
 
         .nav-item .nav-icon {
             font-size: 1.5rem;
-            line-height: 1;
+            transition: transform 0.2s;
         }
 
         .nav-item.active {
             color: var(--primary);
+            background: rgba(108,92,231,0.08);
+        }
+
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
         }
 
         .nav-item:hover {
             color: var(--primary);
         }
 
-        /* Empty state */
+        /* AI Section */
+        .ai-response {
+            background: var(--gradient-1);
+            color: white;
+            padding: 1.2rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .ai-response .ai-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 3rem 1rem;
@@ -625,34 +653,9 @@
         }
 
         .empty-state h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--text);
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: calc(var(--nav-height) + 20px);
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text);
-            color: var(--bg);
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: var(--shadow-lg);
-            z-index: 200;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            pointer-events: none;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
         }
 
         /* Responsive */
@@ -671,13 +674,16 @@
                 gap: 1.5rem;
             }
             .hero .hero-stats .stat .number {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+            .main-content {
+                padding: 0 0.8rem 2rem;
             }
             .card {
                 padding: 1.2rem;
             }
-            .recipe-item {
-                padding: 1rem 1.2rem;
+            .recipe-card {
+                padding: 1.2rem;
             }
         }
 
@@ -685,6 +691,33 @@
             .main-content {
                 max-width: 700px;
             }
+            .hero {
+                min-height: 450px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
         }
     </style>
 </head>
@@ -702,85 +735,50 @@
         <div class="hero-content">
             <span class="emoji-big">🍳</span>
             <h1>Receptník</h1>
-            <p class="hero-subtitle">Tvoja moderná kuchárska kniha. Spravuj recepty, objavuj nové chute a nechaj si poradiť od AI.</p>
+            <p class="hero-subtitle">Tvoja moderná kuchárska kniha s AI asistentom</p>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="number" id="totalRecipes">{{ recepty|length }}</span>
+                    <span class="number" id="totalRecipes">0</span>
                     <span class="label">Receptov</span>
                 </div>
                 <div class="stat">
-                    <span class="number" id="favoriteCount">{{ recepty|selectattr('favorite')|list|length }}</span>
-                    <span class="label">Obľúbené</span>
+                    <span class="number" id="favoriteCount">0</span>
+                    <span class="label">Obľúbených</span>
                 </div>
             </div>
             <button class="hero-cta" onclick="showSection('add')">
-                ➕ Pridať recept
+                ✨ Pridať recept
             </button>
         </div>
     </section>
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <button class="filter-btn {% if aktivna_kategoria == 'vsetky' %}active{% endif %}" onclick="filterRecipes('vsetky')">Všetky</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'oblubene' %}active{% endif %}" onclick="window.location.href='/favorites'">⭐ Obľúbené</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'predjedlo' %}active{% endif %}" onclick="filterRecipes('predjedlo')">Predjedlo</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'hlavne' %}active{% endif %}" onclick="filterRecipes('hlavne')">Hlavné</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'dezert' %}active{% endif %}" onclick="filterRecipes('dezert')">Dezert</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'salat' %}active{% endif %}" onclick="filterRecipes('salat')">Šalát</button>
-            <button class="filter-btn {% if aktivna_kategoria == 'polievka' %}active{% endif %}" onclick="filterRecipes('polievka')">Polievka</button>
-        </div>
-
-        <!-- Section: Zoznam receptov -->
-        <div id="section-list" class="section active">
-            {% if recepty %}
-            <div class="recipe-list">
-                {% for recept in recepty %}
-                <div class="recipe-item" onclick="toggleDetail(this)">
-                    <div class="recipe-item-header">
-                        <h3>{{ recept.nazov }}</h3>
-                        <div style="display:flex;align-items:center;gap:0.5rem;">
-                            {% if recept.kategoria %}
-                            <span class="category-badge">{{ recept.kategoria }}</span>
-                            {% endif %}
-                            <button class="btn btn-sm btn-outline" onclick="event.stopPropagation(); toggleFavorite({{ loop.index0 }})" style="font-size:1.2rem;padding:0.3rem 0.5rem;min-height:auto;min-width:auto;">
-                                {% if recept.favorite %}⭐{% else %}☆{% endif %}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="recipe-meta">
-                        <span>🛒 {{ recept.ingrediencie[:50] }}{% if recept.ingrediencie|length > 50 %}...{% endif %}</span>
-                    </div>
-                    <div class="recipe-detail">
-                        <h4>🛒 Ingrediencie</h4>
-                        <p>{{ recept.ingrediencie }}</p>
-                        <h4>📝 Postup</h4>
-                        <p>{{ recept.postup }}</p>
-                        <div class="recipe-actions">
-                            <form action="/zmazat/{{ loop.index0 }}" method="post" onsubmit="return confirm('Naozaj chceš zmazať tento recept?')">
-                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Zmazať</button>
-                            </form>
-                        </div>
-                    </div>
+        <!-- All Recipes Section -->
+        <div id="section-recipes" class="section active">
+            <div class="card gradient-card">
+                <h2>📖 Všetky recepty</h2>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('vsetky')">Všetky</button>
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('oblubene')">⭐ Obľúbené</button>
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('hlavne')">Hlavné</button>
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('dezerty')">Dezerty</button>
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('predjedla')">Predjedlá</button>
+                    <button class="btn btn-sm btn-secondary" onclick="filterCategory('polievky')">Polievky</button>
                 </div>
-                {% endfor %}
+                <div style="display:flex;gap:0.5rem;">
+                    <input type="text" id="searchInput" placeholder="🔍 Hľadať podľa ingrediencie..." style="flex:1;">
+                    <button class="btn btn-primary btn-sm" onclick="searchRecipes()">Hľadať</button>
+                </div>
             </div>
-            {% else %}
-            <div class="empty-state">
-                <div class="empty-icon">📖</div>
-                <h3>Zatiaľ žiadne recepty</h3>
-                <p>Pridaj svoj prvý recept alebo nechaj AI navrhnúť niečo chutné!</p>
-                <button class="btn btn-primary" onclick="showSection('add')" style="margin-top:1rem;">➕ Pridať recept</button>
-            </div>
-            {% endif %}
+            <div id="recipesContainer"></div>
         </div>
 
-        <!-- Section: Pridať recept -->
+        <!-- Add Recipe Section -->
         <div id="section-add" class="section">
-            <div class="card">
-                <h2>➕ Nový recept</h2>
-                <form action="/pridat" method="post">
+            <div class="card gradient-card gradient-2">
+                <h2>✨ Nový recept</h2>
+                <form id="addForm" onsubmit="addRecipe(event)">
                     <div class="form-group">
                         <label for="nazov">Názov receptu</label>
                         <input type="text" id="nazov" name="nazov" required placeholder="napr. Špagety Carbonara">
@@ -789,62 +787,45 @@
                         <label for="kategoria">Kategória</label>
                         <select id="kategoria" name="kategoria">
                             <option value="">Bez kategórie</option>
-                            <option value="predjedlo">Predjedlo</option>
                             <option value="hlavne">Hlavné jedlo</option>
-                            <option value="dezert">Dezert</option>
-                            <option value="salat">Šalát</option>
-                            <option value="polievka">Polievka</option>
+                            <option value="dezerty">Dezert</option>
+                            <option value="predjedla">Predjedlo</option>
+                            <option value="polievky">Polievka</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="ingrediencie">Ingrediencie (oddeľ čiarkou)</label>
-                        <textarea id="ingrediencie" name="ingrediencie" required placeholder="napr. 200g špagiet, 3 vajcia, 100g slaniny, parmezán"></textarea>
+                        <textarea id="ingrediencie" name="ingrediencie" required placeholder="napr. cestoviny, vajcia, slanina, parmezán"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="postup">Postup</label>
-                        <textarea id="postup" name="postup" required placeholder="1. Uvar špagety..."></textarea>
+                        <textarea id="postup" name="postup" required placeholder="napr. 1. Uvaríme cestoviny..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">💾 Uložiť recept</button>
+                    <button type="submit" class="btn btn-primary btn-full">💾 Uložiť recept</button>
                 </form>
             </div>
         </div>
 
-        <!-- Section: AI návrh -->
+        <!-- AI Section -->
         <div id="section-ai" class="section">
-            <div class="card">
-                <h2>🤖 AI návrh receptu</h2>
-                <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1rem;">Nevieš čo variť? Zadaj ingrediencie, ktoré máš doma, a AI ti navrhne recept.</p>
-                <form id="aiForm" onsubmit="return getAiSuggestion(event)">
-                    <div class="form-group">
-                        <label for="ai_ingrediencie">Čo máš doma?</label>
-                        <textarea id="ai_ingrediencie" name="ingrediencie" required placeholder="napr. kuracie prsia, ryža, mrkva, cibuľa"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-secondary btn-block">🤖 Navrhni recept</button>
-                </form>
-                <div id="aiResult" class="ai-result" style="display:none;"></div>
-            </div>
-        </div>
-
-        <!-- Section: Hľadať -->
-        <div id="section-search" class="section">
-            <div class="card">
-                <h2>🔍 Hľadať podľa ingrediencie</h2>
-                <form action="/hladat" method="get">
-                    <div class="search-bar">
-                        <input type="text" name="ingrediencia" placeholder="napr. kuracie, syr, paradajka" value="{{ hladany if hladany else '' }}" required>
-                        <button type="submit" class="btn btn-primary">🔍</button>
-                    </div>
-                </form>
-                {% if hladany %}
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.5rem;">Výsledky pre: <strong>{{ hladany }}</strong></p>
-                {% endif %}
+            <div class="card gradient-card gradient-3">
+                <h2>🤖 AI asistent</h2>
+                <p style="color:var(--text-secondary);margin-bottom:1rem;font-size:0.9rem;">
+                    Napíš, čo máš doma, a AI ti navrhne recept!
+                </p>
+                <div class="form-group">
+                    <label for="aiIngrediencie">Ingrediencie</label>
+                    <textarea id="aiIngrediencie" placeholder="napr. vajcia, múka, mlieko, maslo" style="min-height:80px;"></textarea>
+                </div>
+                <button class="btn btn-primary btn-full" onclick="getAIRecipe()">✨ Navrhnúť recept</button>
+                <div id="aiResponse"></div>
             </div>
         </div>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="showSection('list')">
+        <button class="nav-item active" onclick="showSection('recipes')">
             <span class="nav-icon">📖</span>
             Recepty
         </button>
@@ -856,24 +837,16 @@
             <span class="nav-icon">🤖</span>
             AI
         </button>
-        <button class="nav-item" onclick="showSection('search')">
-            <span class="nav-icon">🔍</span>
-            Hľadať
-        </button>
     </nav>
-
-    <!-- Toast -->
-    <div id="toast" class="toast"></div>
 
     <script>
         // Theme
         function toggleTheme() {
             const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            document.querySelector('.theme-toggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
         }
 
         // Load saved theme
@@ -882,80 +855,192 @@
         document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
         // Navigation
-        function showSection(sectionId) {
+        function showSection(section) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('section-' + sectionId).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.querySelector(`.nav-item:nth-child(${sectionId === 'list' ? 1 : sectionId === 'add' ? 2 : sectionId === 'ai' ? 3 : 4})`).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Recipe detail toggle
-        function toggleDetail(element) {
-            const detail = element.querySelector('.recipe-detail');
-            detail.classList.toggle('open');
-        }
-
-        // Filter recipes
-        function filterRecipes(kategoria) {
-            window.location.href = '/?kategoria=' + kategoria;
-        }
-
-        // Toggle favorite
-        function toggleFavorite(index) {
-            fetch('/toggle_favorite/' + index, { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.favorite !== undefined) {
-                        showToast(data.favorite ? '⭐ Pridané do obľúbených' : '☆ Odstránené z obľúbených');
-                        setTimeout(() => location.reload(), 500);
-                    }
-                })
-                .catch(() => showToast('❌ Chyba pri ukladaní'));
-        }
-
-        // AI suggestion
-        function getAiSuggestion(event) {
-            event.preventDefault();
-            const form = document.getElementById('aiForm');
-            const formData = new FormData(form);
-            const resultDiv = document.getElementById('aiResult');
             
-            resultDiv.style.display = 'block';
-            resultDiv.textContent = '🤔 Premýšľam...';
+            const sectionMap = {
+                'recipes': 'section-recipes',
+                'add': 'section-add',
+                'ai': 'section-ai'
+            };
             
-            fetch('/ai_navrh', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                resultDiv.textContent = data.navrh;
-            })
-            .catch(() => {
-                resultDiv.textContent = '❌ Chyba pri komunikácii s AI. Skús neskôr.';
-            });
+            document.getElementById(sectionMap[section]).classList.add('active');
             
-            return false;
+            // Update nav
+            const navMap = {
+                'recipes': 0,
+                'add': 1,
+                'ai': 2
+            };
+            document.querySelectorAll('.nav-item')[navMap[section]].classList.add('active');
+            
+            if (section === 'recipes') loadRecipes();
         }
 
-        // Toast
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // Update stats on load
-        document.addEventListener('DOMContentLoaded', function() {
-            const totalEl = document.getElementById('totalRecipes');
-            const favEl = document.getElementById('favoriteCount');
-            if (totalEl) {
-                const recipes = document.querySelectorAll('.recipe-item').length;
-                totalEl.textContent = recipes;
+        // Load Recipes
+        async function loadRecipes() {
+            try {
+                const response = await fetch('/api/recepty');
+                const recipes = await response.json();
+                renderRecipes(recipes);
+                updateStats(recipes);
+            } catch (error) {
+                console.error('Chyba pri načítaní receptov:', error);
             }
+        }
+
+        function renderRecipes(recipes) {
+            const container = document.getElementById('recipesContainer');
+            
+            if (recipes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🍳</div>
+                        <h3>Zatiaľ žiadne recepty</h3>
+                        <p>Pridaj svoj prvý recept!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = recipes.map((recipe, index) => `
+                <div class="recipe-card">
+                    <div class="recipe-header">
+                        <div>
+                            <div class="recipe-title">${recipe.nazov}</div>
+                            ${recipe.kategoria ? `<span class="recipe-category">${recipe.kategoria}</span>` : ''}
+                        </div>
+                        <button class="favorite-btn ${recipe.favorite ? 'active' : ''}" onclick="toggleFavorite(${index})">
+                            ${recipe.favorite ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <div class="recipe-ingredients">
+                        ${recipe.ingrediencie.split(',').map(ing => `<span class="ingredient-tag">${ing.trim()}</span>`).join('')}
+                    </div>
+                    <div class="recipe-steps">${recipe.postup}</div>
+                    <div class="recipe-actions">
+                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe(${index})">🗑️ Zmazať</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(recipes) {
+            document.getElementById('totalRecipes').textContent = recipes.length;
+            document.getElementById('favoriteCount').textContent = recipes.filter(r => r.favorite).length;
+        }
+
+        // Add Recipe
+        async function addRecipe(event) {
+            event.preventDefault();
+            const form = document.getElementById('addForm');
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch('/pridat', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData)
+                });
+                
+                if (response.ok) {
+                    form.reset();
+                    showSection('recipes');
+                    loadRecipes();
+                }
+            } catch (error) {
+                console.error('Chyba pri pridávaní receptu:', error);
+            }
+        }
+
+        // Delete Recipe
+        async function deleteRecipe(index) {
+            if (!confirm('Naozaj chceš zmazať tento recept?')) return;
+            
+            try {
+                const response = await fetch(`/zmazat/${index}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    loadRecipes();
+                }
+            } catch (error) {
+                console.error('Chyba pri mazaní receptu:', error);
+            }
+        }
+
+        // Toggle Favorite
+        async function toggleFavorite(index) {
+            try {
+                const response = await fetch(`/toggle_favorite/${index}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    loadRecipes();
+                }
+            } catch (error) {
+                console.error('Chyba pri označovaní obľúbeného:', error);
+            }
+        }
+
+        // Filter Category
+        function filterCategory(category) {
+            if (category === 'oblubene') {
+                window.location.href = '/favorites';
+            } else {
+                window.location.href = `/?kategoria=${category}`;
+            }
+        }
+
+        // Search Recipes
+        function searchRecipes() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.location.href = `/hladat?ingrediencia=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // AI Recipe
+        async function getAIRecipe() {
+            const ingredients = document.getElementById('aiIngrediencie').value;
+            if (!ingredients.trim()) {
+                alert('Prosím, zadaj ingrediencie!');
+                return;
+            }
+
+            const responseDiv = document.getElementById('aiResponse');
+            responseDiv.innerHTML = '<div class="ai-response"><div class="ai-label">🤖 AI premýšľa...</div><div class="loading"></div></div>';
+
+            try {
+                const response = await fetch('/ai_navrh', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `ingrediencie=${encodeURIComponent(ingredients)}`
+                });
+
+                const data = await response.json();
+                responseDiv.innerHTML = `
+                    <div class="ai-response">
+                        <div class="ai-label">🤖 AI návrh receptu</div>
+                        ${data.navrh.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+            } catch (error) {
+                responseDiv.innerHTML = '<div class="ai-response" style="background:var(--danger);">❌ Chyba pri komunikácii s AI</div>';
+            }
+        }
+
+        // Enter key for search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchRecipes();
         });
+
+        // Initial load
+        loadRecipes();
     </script>
 </body>
 </html>
